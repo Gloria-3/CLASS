@@ -1,0 +1,54 @@
+class Superhero:
+    """Base class for all superheroes with encapsulation"""
+    def __init__(self, name, secret_identity, power_level):
+        self._name = name  # Protected attribute
+        self.__secret_identity = secret_identity  # Private attribute
+        self.power_level = power_level  # Public attribute
+
+    # Getter for private attribute
+    def reveal_secret_identity(self):
+        return f"SHHH! {self.__secret_identity} is {self._name}'s secret."
+
+    # Public method
+    def use_power(self):
+        if self.power_level > 50:
+            return f"{self._name} UNLEASHES their power! 💥"
+        return f"{self._name} tries but seems tired... 😴"
+
+    # Special method
+    def __str__(self):
+        return f"Superhero: {self._name} | Power: {self.power_level}/100"
+
+# ===== INHERITANCE =====
+class Avenger(Superhero):
+    """Child class with polymorphic methods"""
+    def __init__(self, name, secret_identity, power_level, weapon):
+        super().__init__(name, secret_identity, power_level)
+        self.weapon = weapon
+
+    # Method overriding (polymorphism)
+    def use_power(self):
+        base_power = super().use_power()
+        return f"{base_power} ...with their {self.weapon}! ⚔️"
+
+    # New method
+    def assemble(self):
+        return f"{self._name} ANSWERS THE CALL! 🔔"
+
+# ===== DEMO =====
+if __name__ == "__main__":
+    print("=== SUPERHERO SHOWCASE ===")
+    
+    # Base class instance
+    superman = Superhero("Superman", "Clark Kent", 90)
+    print(superman)
+    print(superman.use_power())
+    print(superman.reveal_secret_identity())
+    # print(superman.__secret_identity)  # ❌ Error (private)
+
+    # Child class instance
+    iron_man = Avenger("Iron Man", "Tony Stark", 85, "Repulsor Beams")
+    print("\n" + str(iron_man))
+    print(iron_man.use_power())  # Polymorphism in action
+    print(iron_man.assemble())   # Child's unique method
+    print(iron_man.reveal_secret_identity())  # Inherited method
